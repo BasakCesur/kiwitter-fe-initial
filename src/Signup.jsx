@@ -1,7 +1,13 @@
 import AuthLayout from "./AuthLayout";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function Signup() {
+  const history = useHistory();
+
   const {
     register,
     handleSubmit,
@@ -11,7 +17,22 @@ export default function Signup() {
   });
 
   function handleSignup(data) {
-    console.log(data, "---");
+    axios({
+      method: "post",
+      url: "https://kiwitter-node-77f5acb427c1.herokuapp.com/users/signup",
+      data: data,
+    })
+
+    .then(() => {
+      toast.success("Hesap başarıyla oluşturuldu. Ana sayfaya yönlendiriyorum.");
+      setTimeout(() => {
+        history.push("/login"); 
+      }, 3000);
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin."); 
+    });
   }
 
   return (
@@ -86,7 +107,7 @@ export default function Signup() {
             type="submit"
             className="h-12 text-center block w-full rounded-lg bg-lime-700 text-white font-bold "
           >
-            GİRİŞ
+            KAYIT OL
           </button>
         </div>
       </form>

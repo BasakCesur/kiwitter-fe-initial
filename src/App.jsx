@@ -1,12 +1,24 @@
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
-import PageLayout from "./PageLayout";
 import Login from "./Login";
 import Signup from "./Signup";
+import PrivateRoute from "./PrivateRoute";
+import { UserContextDepo } from "./UserContextDepo";
+import MainPage from "./MainPage";
+import UserTwits from "./UserTwits";
+import TwitDetail from "./TwitDetail";
+
+
+
+
+
+
+
 
 function App() {
   return (
     <div>
+      <UserContextDepo>
       <Switch>
         <Route path="/login">
           <Login />
@@ -17,15 +29,18 @@ function App() {
 
         <Route path="/" exact>
           {/* /?variant=most_liked */}
-          <PageLayout>Home</PageLayout>
+          <MainPage />
         </Route>
-        <Route path="/profile/:nick">
-          <PageLayout>Profile page</PageLayout>
+
+        <Route path="/profile/:nickname">
+        <UserTwits />
         </Route>
-        <Route path="/detail/:twitId">
-          <PageLayout>Twit detail</PageLayout>
-        </Route>
+
+        <PrivateRoute path="/detail/:twitId">
+            <TwitDetail />
+          </PrivateRoute>
       </Switch>
+      </UserContextDepo>
     </div>
   );
 }
